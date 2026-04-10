@@ -1,2 +1,2 @@
 # Pokedex
-ChatBot que usa la PokeAPI
+ChatBot de pokemon con la primera generaciòn
