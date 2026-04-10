@@ -1,0 +1,117 @@
+﻿<Window x:Class="Pokedex.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Pokédex" Height="680" Width="850" WindowStartupLocation="CenterScreen">
+    <!-- Grid contenedor principal -->
+    <Grid Margin="0">
+        <Grid.Background>
+            <SolidColorBrush Color="#F0F2F5"/>
+        </Grid.Background>
+
+        <!-- Contenedor estilo tarjeta para el chat -->
+        <Border Background="White" CornerRadius="20" Margin="40" 
+                HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Border.Effect>
+                <DropShadowEffect Color="#40000000" BlurRadius="20" ShadowDepth="8" Opacity="0.5"/>
+            </Border.Effect>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Encabezado estilo Pokédex -->
+                <Border Grid.Row="0" Background="#CC0000" CornerRadius="20,20,0,0" Padding="15">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <TextBlock Text="Pokédex" FontSize="24" FontWeight="Bold" 
+                                   Foreground="White" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- Historial de mensajes -->
+                <ScrollViewer x:Name="ScrollChat" Grid.Row="1" Margin="20" VerticalScrollBarVisibility="Auto">
+                    <!-- Usamos un StackPanel para ir metiendo los mensajes en "burbujas" -->
+                    <StackPanel x:Name="MensajesChat" Orientation="Vertical"/>
+                </ScrollViewer>
+
+                <!-- Área de entrada con validación y botón de envío -->
+                <Border Grid.Row="2" Background="#F8F8F8" CornerRadius="0,0,20,20" Padding="20" BorderBrush="#EEEEEE" BorderThickness="0,1,0,0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBox x:Name="txtMensaje" Grid.Column="0" Margin="0,0,15,0" Height="45" Padding="12"
+                                 BorderBrush="#CC0000" BorderThickness="2" Background="White" Foreground="#333333"
+                                 FontSize="14" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto">
+                            <TextBox.Style>
+                                <Style TargetType="TextBox">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="TextBox">
+                                                <Border CornerRadius="8" 
+                                                        BorderBrush="{TemplateBinding BorderBrush}" 
+                                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                                        Background="{TemplateBinding Background}">
+                                                    <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsFocused" Value="True">
+                                            <Setter Property="BorderBrush" Value="#FF4D4D"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBox.Style>
+                        </TextBox>
+
+                        <!-- Botón Enviar -->
+                        <Button x:Name="btnEnviar" Grid.Column="1" Content="Enviar" Background="#CC0000" Foreground="White"
+                                Height="45" Width="100" FontWeight="Bold" FontSize="14" Click="btnEnviar_Click" IsDefault="True">
+                            <Button.Style>
+                                <Style TargetType="{x:Type Button}">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type Button}">
+                                                <Border CornerRadius="8" Background="{TemplateBinding Background}">
+                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter Property="Cursor" Value="Hand"/>
+                                </Style>
+                            </Button.Style>
+                            <Button.Triggers>
+                                <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <ColorAnimation Storyboard.TargetProperty="(Control.Background).(SolidColorBrush.Color)"
+                                                            To="#FF3333" Duration="0:0:0.2"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                                <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <ColorAnimation Storyboard.TargetProperty="(Control.Background).(SolidColorBrush.Color)"
+                                                            To="#CC0000" Duration="0:0:0.2"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </Button.Triggers>
+                        </Button>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>
